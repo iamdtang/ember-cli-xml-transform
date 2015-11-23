@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-xml-transform",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple transform for dealing with XML strings",
   "directories": {
     "doc": "doc",
