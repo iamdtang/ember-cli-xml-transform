@@ -6,7 +6,7 @@ moduleFor('transform:xml', 'Unit | Transform | xml', {
 });
 
 
-test('it deserializes a string of XML to an object', function(assert) {
+test('it deserializes a string of XML to an XMLDocument object', function(assert) {
   let transform = this.subject();
   let xml = '<family><cats></cats></family>';
   let deserialized = transform.deserialize(xml);
@@ -14,15 +14,25 @@ test('it deserializes a string of XML to an object', function(assert) {
   assert.equal(deserialized.getElementsByTagName('cats').length, 1);
 });
 
-test('it serializes an XML object to a string', function(assert) {
+test('it deserializes a string of XML to an XMLDocument object with a namespace', function(assert) {
   let transform = this.subject();
-  let family = document.createElement('family');
-  let cats = document.createElement('cats');
+  let xml = '<family xmlns="http://my-site.com/xml"><cats></cats></family>';
+  let deserialized = transform.deserialize(xml);
+  assert.equal(deserialized.getElementsByTagName('family')[0].getAttribute('xmlns'), 'http://my-site.com/xml');
+});
 
-  cats.appendChild(document.createElement('cat'));
-  cats.appendChild(document.createElement('cat'));
-  family.appendChild(cats);
+test('it serializes an XMLDocument object to a string', function(assert) {
+  let transform = this.subject();
+  let deserialized = transform.deserialize('<family><cats></cats></family>');
+  let cat = deserialized.createElement('cat');
+  deserialized.getElementsByTagName('cats')[0].appendChild(cat);
+  assert.equal(transform.serialize(deserialized), '<family><cats><cat/></cats></family>');
+});
 
-  let expectedXMLString = '<family xmlns="http://www.w3.org/1999/xhtml"><cats><cat></cat><cat></cat></cats></family>';
-  assert.equal(transform.serialize(family), expectedXMLString);
+test('it serializes an XMLDocument object to a string with a namespace', function(assert) {
+  let transform = this.subject();
+  let deserialized = transform.deserialize('<family xmlns="http://my-site.com/xml"><cats></cats></family>');
+  let cat = deserialized.createElement('cat');
+  deserialized.getElementsByTagName('cats')[0].appendChild(cat);
+  assert.equal(transform.serialize(deserialized), '<family xmlns="http://my-site.com/xml"><cats><cat/></cats></family>');
 });

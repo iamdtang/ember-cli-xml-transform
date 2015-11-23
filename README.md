@@ -2,7 +2,7 @@
 
 # ember-cli-xml-transform
 
-A simple transform for dealing with XML strings
+A simple transform for dealing with XML strings.
 
 ## Installation
 
@@ -12,7 +12,7 @@ ember install ember-cli-xml-transform
 
 ## Usage
 
-Imagine we have a model called `configuration` with a property `body`. The server returns a string of XML and expects a string of XML to be sent across. In your app, you want this converted to an `XMLDocument` object. Simply use `DS.attr('xml')` as follows:
+Imagine you have a model called `configuration` with a property `body`. The server returns a string of XML and expects a string of XML to be sent back. In the browser, you want to manipulate this XML using the standard DOM API. Simply use `DS.attr('xml')` as follows:
 
 ```js
 // app/models/configuration
@@ -24,10 +24,10 @@ export default DS.Model.extend({
 });
 ```
 
-Now when you get the `body` property off the model, it will return and `XMLDocument`:
+If the server sent back a string of XML for the `body` property, Ember will transform it into an `XMLDocument` so you can use the standard DOM API:
 
 ```js
 model.get('body'); // XMLDocument
 ```
 
-When you save the model, `body` will be an XML string.
+Modify the `XMLDocument` as necessary. When the model is sent back to the server, it will be stringified.

@@ -7,7 +7,7 @@ export default DS.Transform.extend({
   },
 
   serialize: function(deserialized) {
-    var serializer = new XMLSerializer();
+    let serializer = new XMLSerializer();
     return serializer.serializeToString(deserialized);
   }
 });
