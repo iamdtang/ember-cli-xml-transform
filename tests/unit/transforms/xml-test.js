@@ -10,7 +10,7 @@ test('it deserializes a string of XML to an object', function(assert) {
   let transform = this.subject();
   let xml = '<family><cats></cats></family>';
   let deserialized = transform.deserialize(xml);
-  assert.equal(typeof deserialized, 'object');
+  assert.ok(deserialized instanceof window.XMLDocument);
   assert.equal(deserialized.getElementsByTagName('cats').length, 1);
 });
 

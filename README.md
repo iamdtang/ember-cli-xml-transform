@@ -1,25 +1,33 @@
-# Ember-cli-xml-transform
+[![Build Status](https://travis-ci.org/skaterdav85/ember-cli-xml-transform.svg)](https://travis-ci.org/skaterdav85/ember-cli-xml-transform)
 
-This README outlines the details of collaborating on this Ember addon.
+# ember-cli-xml-transform
+
+A simple transform for dealing with XML strings
 
 ## Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+```
+ember install ember-cli-xml-transform
+```
 
-## Running
+## Usage
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+Imagine we have a model called `configuration` with a property `body`. The server returns a string of XML and expects a string of XML to be sent across. In your app, you want this converted to an `XMLDocument` object. Simply use `DS.attr('xml')` as follows:
 
-## Running Tests
+```js
+// app/models/configuration
+import DS from 'ember-data';
 
-* `ember test`
-* `ember test --server`
+export default DS.Model.extend({
+  name: DS.attr('string'),
+  body: DS.attr('xml')
+});
+```
 
-## Building
+Now when you get the `body` property off the model, it will return and `XMLDocument`:
 
-* `ember build`
+```js
+model.get('body'); // XMLDocument
+```
 
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+When you save the model, `body` will be an XML string.
